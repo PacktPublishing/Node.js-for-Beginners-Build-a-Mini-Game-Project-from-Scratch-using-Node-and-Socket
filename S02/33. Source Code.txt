@@ -1,0 +1,45 @@
+Source Code
+const express = require('express');
+const app = express();
+const port = 8080;
+const http = require('http').Server(app);
+const socket = require('socket.io')(http);
+app.use(express.static(__dirname + '/public'));
+app.get('/', function (req, res) {
+    res.sendFile('index.html');
+})
+socket.on('connection', function (s) {
+    console.log('ready to use socket');
+    s.on('player', function (id) {
+        console.log(id);
+    })
+})
+const server = http.listen(port, function () {
+    console.log('ready ' + port);
+})
+ 
+index.html
+
+<h1> Hello World</h1>
+<button>Click</button>
+<div class="output"></div>
+<script>
+    const btn = document.querySelector('button');
+    const output = document.querySelector('.output');
+    btn.addEventListener('click', listUsers);
+ 
+    function listUsers() {
+        fetch('users').then(function (rep) {
+            return rep.json()
+        }).then(function (data) {
+            console.log(data);
+            output.innerHTML = '<h1>users</h1>';
+            data.forEach(function (el) {
+                console.log(el);
+                let div = document.createElement('div');
+                div.textContent = el.user + ' ' + el.pass;
+                output.appendChild(div);
+            })
+        })
+    }
+</script>

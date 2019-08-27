@@ -1,0 +1,11 @@
+Source Code
+<script>
+function message(greeting,callback){
+    console.log(greeting);
+    callback();
+}
+function afterward(){
+    console.log('Good Bye');
+}
+message('Hello',afterward);
+</script>
